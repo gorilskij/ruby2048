@@ -1,3 +1,6 @@
+require_relative 'read_escapes'
+# move printing to a separate file
+
 Prob_4 = 0.1
 In_terminal = true
 Dimensions_xy = [5, 5]
@@ -12,23 +15,6 @@ def color num, width
   num_width = num.to_s.length
   num = In_terminal ? num == 0 ? ' ' : num = "\e[#{(91..97).to_a[Math.log(num, 2) % 6]}m#{num}\e[0m" : num.to_s
   ' '*((width - num_width) / 2) + num + ' '*((width - num_width) / 2.0).ceil
-end
-
-require 'io/console'
-
-# Reads keypresses from the user including 2 and 3 escape character sequences.
-def read_char
-  STDIN.echo = false
-  STDIN.raw!
-  input = STDIN.getc.chr
-  if input == "\e" then
-    input << STDIN.read_nonblock(3) rescue nil
-    input << STDIN.read_nonblock(2) rescue nil
-  end
-ensure
-  STDIN.echo = true
-  STDIN.cooked!
-  return input
 end
 
 class Game2048
